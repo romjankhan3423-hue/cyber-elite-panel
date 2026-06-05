@@ -26,10 +26,18 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Create Flutter structure
+      - name: Auto Create Flutter App Structure
         run: |
-          mkdir -p lib
-          mv main.dart lib/main.dart
+          # প্রথমে একটি টেম্পোরারি ফোল্ডারে ফুল ফ্লাটার প্রজেক্ট তৈরি করবে
+          flutter create --platforms=android my_tmp_app
+          
+          # আমাদের মেইন ফাইলগুলো ওই প্রজেক্টে ট্রান্সফার করবে
+          cp main.dart my_tmp_app/lib/main.dart
+          cp pubspec.yaml my_tmp_app/pubspec.yaml
+          
+          # এবার মূল ডিরেক্টরিতে প্রজেক্টের সব ফাইল নিয়ে আসবে
+          mv my_tmp_app/* .
+          mv my_tmp_app/.* . 2>/dev/null || true
 
       - name: Install dependencies
         run: flutter pub get

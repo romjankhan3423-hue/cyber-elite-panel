@@ -26,18 +26,13 @@ jobs:
           flutter-version: '3.19.0'
           channel: 'stable'
 
-      - name: Auto Create Flutter App Structure
+      - name: Create Complete Fresh App
         run: |
-          # প্রথমে একটি টেম্পোরারি ফোল্ডারে ফুল ফ্লাটার প্রজেক্ট তৈরি করবে
-          flutter create --platforms=android my_tmp_app
+          # পুরোনো ফাইল থাকলে ডিলিট করে দেবে যেন ঝামেলা না হয়
+          rm -rf * .github 2>/dev/null || true
           
-          # আমাদের মেইন ফাইলগুলো ওই প্রজেক্টে ট্রান্সফার করবে
-          cp main.dart my_tmp_app/lib/main.dart
-          cp pubspec.yaml my_tmp_app/pubspec.yaml
-          
-          # এবার মূল ডিরেক্টরিতে প্রজেক্টের সব ফাইল নিয়ে আসবে
-          mv my_tmp_app/* .
-          mv my_tmp_app/.* . 2>/dev/null || true
+          # গিটহাব নিজে থেকে একটি সচল ডেমো অ্যাপ তৈরি করবে
+          flutter create --project-name=cyber_elite_panel --platforms=android .
 
       - name: Install dependencies
         run: flutter pub get
